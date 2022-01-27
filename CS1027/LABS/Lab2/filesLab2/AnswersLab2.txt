@@ -1,0 +1,21 @@
+Answers for Lab 2
+-----------------------------------------------
+
+1. This question refers to variables data1 and data2 in class TestDataTypes. For each one of the following statements indicate whether the comparison will return the value true or false
+
+data1 == data2: true or false?
+data1.intVar == data2.intVar: true or false?
+data1.charVar == data2.charVar: true or false?
+data1.boolVar == data2.boolVar: true or false?
+data1.doubleVar == data2.doubleVar: true or false?
+data1.varA == data2.varA: true or false?
+data1.varA.numItems == data2.varA.numItems: true or false?
+data1.varA.arrItems == data2.varA.arrItems: true or false?
+
+2. How many of your answers to question 1 were incorrect? 
+
+3. Why was the result of the last comparison true, even though arrays are non-primitive types?
+
+
+
+
