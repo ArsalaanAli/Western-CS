@@ -15,4 +15,12 @@ public class DataTypes {
 		boolVar = newBoolVar;
 		varA = newVarA;
 	}
+	public boolean equals(DataTypes otherType) {
+		if(varA.equals(otherType.varA)){
+			if(this.intVar == otherType.intVar && this.doubleVar == otherType.doubleVar && this.charVar == otherType.charVar && this.boolVar == otherType.boolVar){
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -1,4 +1,3 @@
-
 public class ClassB {
 
 	private int counter = 0;
@@ -16,11 +15,9 @@ public class ClassB {
 	}
 
 	public static void main(String[] args) {
-		int i;
-
-		i = counter;
-		incCounter();
-		System.out.println("i = " + i + " counter = " + counter);
+		ClassB test = new ClassB();
+		int i = test.getCounter();
+		test.incCounter();
+		System.out.println("i = " + i + " counter = " + test.getCounter());
 	}
-
 }

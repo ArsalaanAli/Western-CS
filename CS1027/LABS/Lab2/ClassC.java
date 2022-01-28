@@ -1,10 +1,9 @@
-
 public class ClassC {
 
-	private int counter = 0;
+	public static int counter = 0;
 
 	public ClassC() {
-		counter = 1;
+		counter++;
 	}
 
 	public void incCounter() {
