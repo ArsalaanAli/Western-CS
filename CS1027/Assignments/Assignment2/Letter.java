@@ -9,6 +9,7 @@ public class Letter{
     }
 
     public boolean equals(Object otherObject){
+
         if(otherObject instanceof Letter){
             Letter object = (Letter) otherObject;
             if (this.letter == object.letter){

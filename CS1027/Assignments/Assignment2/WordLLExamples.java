@@ -78,9 +78,9 @@ public class WordLLExamples {
 	public static void main(String[] args) {
 		scan = new Scanner(System.in, "UTF-8");
 
-		//readMysteryWords("words");
-		//playEnglish();
-		playCards();
+		readMysteryWords("words");
+		playEnglish();
+		// playCards();
 		System.out.println("end of testing.");
 	}
 
@@ -88,10 +88,9 @@ public class WordLLExamples {
 	public static void playEnglish() {
 		String randomWord = mysteryWord[pick(mysteryWord.length)].toUpperCase();
 		Word mystery = new Word(Letter.fromString(randomWord));
+		//System.out.println(randomWord);
 		String message = "Enter a word of length " + randomWord.length() + " (XX to stop):";
-
 		WordLL wll = new WordLL(mystery);
-
 		System.out.print(message);
 		String wordStr = scan.next().toUpperCase();
 		while (!wordStr.equals("XX")) {

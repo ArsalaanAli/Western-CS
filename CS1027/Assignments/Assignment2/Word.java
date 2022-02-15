@@ -7,6 +7,7 @@ public class Word{
         for(int i = 0; i<letters.length; i++){
             currentLetter = new LinearNode(letters[i]);
             if(i == 0){
+                this.firstLetter = currentLetter;
                 previousLetter = currentLetter;
                 continue;
             }
@@ -33,7 +34,7 @@ public class Word{
     private boolean contains(LinearNode<Letter> letter){
         LinearNode<Letter> currentNode = firstLetter;
         while(currentNode != null){
-            if(currentNode.getElement().equals(letter)){
+            if(currentNode.getElement().equals(letter.getElement())){
                 return true;
             }
             currentNode = currentNode.getNext();
