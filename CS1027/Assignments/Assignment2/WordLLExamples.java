@@ -78,9 +78,9 @@ public class WordLLExamples {
 	public static void main(String[] args) {
 		scan = new Scanner(System.in, "UTF-8");
 
-		readMysteryWords("words");
-		playEnglish();
-		// playCards();
+		// readMysteryWords("words");
+		// playEnglish();
+		playCards();
 		System.out.println("end of testing.");
 	}
 
@@ -113,7 +113,7 @@ public class WordLLExamples {
 		Word mystery = ascendingEuchreCards();
 		System.out.println("To Enter cards use this format: AC,KC,9H,1S or R (for a random guess)");
 		String message = "Enter 4 Cards (XX to stop):";
-
+		System.out.println(mystery.toString());
 		WordLL wll = new WordLL(mystery);
 		// --------------------
 		Word word = null;

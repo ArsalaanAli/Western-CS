@@ -1,0 +1,94 @@
+Answers for Lab 5
+-----------------------------------------------
+
+EXERCISE 1
+----------
+
+i) What do you think would be printed after the first invocation to method1 (Line 38)?
+ABDFG
+
+ii) What do you think would be printed after the second invocation to method1 (Line 43)?
+ABEFG
+
+iii) What do you think would be printed after the third invocation to method1 (Line 48)?
+ABCFG
+
+Was answer (i) incorrect? no
+Was answer (ii) incorrect? no
+Was answer (iii) incorrect? no
+
+After commenting out line 10 and uncommenting line 11:
+i) What do you think would be printed after the first invocation to method1 (Line 38)?
+ABXCFG
+
+ii) What do you think would be printed after the second invocation to method1 (Line 43)?
+ABXCFG
+
+iii) What do you think would be printed after the third invocation to method1 (Line 48)?
+ABCFG
+
+Was answer (i) incorrect? no
+Was answer (ii) incorrect? no
+Was answer (iii) incorrect? no
+
+EXERCISE 2
+----------
+
+What line of the program causes the exception to be thrown?
+line 8 of the program is causing the exception to be thrown.
+
+Why did testArray[0][0] not change?
+because the nested for loop starts at j = 1; so the array at [0][0] will never be accessed by the loop, so the value didn't change.
+
+After pressing F6 until testArray[0][5] changes value from 0 to 5 and the statement for (int j=1; j<=6; j++) is highlighted in green,
+    - what are the values of i and j?
+	i = 0; j = 6
+
+	- is it correct that the program tries to store the value (i+1)*j in testArray[i][j]?
+	the nested arrays in testArray are of length 6, meaning the highest index value is 5. So if j = 6 the array can't be accessed at [i][i] because there is not 6th index value in testArray[i].
+EXERCISE 3
+----------
+
+Which line of the program causes the exception to be thrown?
+line 10 of the program causes the exception to be thrown because load is 0 and the code tries to divide by load.
+
+Which line is highligted after pressing F6?
+line 10 is highlighted
+
+After re-running the program which line is highligter after pressing F5?
+line 18
+
+What is the differentce between F5 and F6?
+F5 steps into the function in the current line; F6 doesn't step into the function and instead steps over it right to the next line.
+
+What are the values of variables i, step, result and Load?
+i: 4
+step: -468
+result: 472
+load:  0
+
+Why does the progam crash after pressing F6?
+because we are trying to divide by load, but load is 0 so a zero division error is thrown.
+
+EXERCISE 4
+----------
+
+Why is there a compilation error in line 27?
+there is an error in line 27 because i has not been declared.
+a variable i is declared in the for loop, but the scope of that variable means that it only exists inside the loop so it cannot be used outside the loop.
+
+What do you think will be the values of variables var1 and obj1 immediately after method2(obj1) is executed?
+var1 = -20
+obj1 = MyObject("john")
+
+
+What do you think will be the values of variables var1 and obj1 immediately after method1(obj1) is executed?
+var1 = -20
+obj1 = MyObject("john")
+
+What are the correct values of variables var1 and obj1 immediately after method2(obj1) is executed?
+var1 = -20
+obj1 = MyObject("john")
+
+Why is the result of the comparison (obj1 == obj2) false even though both obj1 and obj2 contain the same information, namely "joe"? 
+its because obj1 and obj2 are held at different locaitons in memory, so they are not the same object, so the comparison returns false.
