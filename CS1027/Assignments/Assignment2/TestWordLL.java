@@ -47,8 +47,7 @@ public class TestWordLL {
 		for(int i=0;i<arr.length;i++) {
 			wll.tryWord( new Word(Letter.fromString(arr[i])) );
 		}
-
-		// ********** WordLL tryWord +
+	// ********** WordLL tryWord +
 		test(9,"WordLL tryWord +", wll.toString().contains("Word: !O! !B! !J! !E! !C! !T! -S- ") &&
 		wll.toString().contains("Word: +T+ +E+ -S- +T+ -I- -N- -G- ") &&
 		wll.toString().contains("Word: +J+ +O+ +B+ ") );
@@ -95,7 +94,6 @@ public class TestWordLL {
 		System.out.println("Your code scored: " + passed + " / " + tested);
 		//--------------------
 	}
-
 	public static void test(int testNumber, String message, boolean testStatus) {
 		tested++;
 		System.out.println("Test " + testNumber + " (" + message + ") " + (testStatus ? "passed" : "failed"));
