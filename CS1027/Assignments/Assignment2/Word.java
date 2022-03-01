@@ -6,7 +6,7 @@ public class Word{
         LinearNode<Letter> previousLetter = null;
         LinearNode<Letter> currentLetter = null;
         for(int i = 0; i<letters.length; i++){
-            currentLetter = new LinearNode(letters[i]);
+            currentLetter = new LinearNode<Letter>(letters[i]);
             if(i == 0){
                 this.firstLetter = currentLetter;//creating a linked list with the letter array and saving its head as the field firstLetter
                 previousLetter = currentLetter;
