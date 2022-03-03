@@ -28,12 +28,13 @@ public class Postfix {
 					expression = expression + " = "+ result;
 					
 					// Add your code here to add expression to the stack
+					expStack.push(expression);
 
 				
 				} else if (action.equals("r")) {
 
 					// Add your code here to display the recent expressions
-
+					showRecent(3);
 
 				}
 
@@ -57,7 +58,18 @@ public class Postfix {
 		System.out.println("Recent Expressions:");
 		
 		// Add your code here to show the recent expressions and to restore expStack
-		
+		for(int i = 0; i<numToShow; i++){
+			if(expStack.isEmpty()){
+				break;
+			} 
+			tmp.push(expStack.pop());
+		}
+
+		while(!tmp.isEmpty()){
+			String pop = tmp.pop();
+			System.out.println(pop);
+			expStack.push(pop);
+		}
 
 	}
 	

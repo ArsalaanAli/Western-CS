@@ -40,14 +40,20 @@ public class PostfixEvaluator {
 
 		while (tokenizer.hasMoreTokens()) {
 			token = tokenizer.nextToken();
-			
-			// Add your code here
-
+			if(Character.isDigit(token.charAt(0))){
+				stack.push(Integer.parseInt(token));
+			}
+			else{
+				op2 = stack.pop();
+				op1 = stack.pop();
+				result = evalSingleOp(token.charAt(0), op1, op2);
+				stack.push(result);
+			}
 		}
 		
 		// Add your code here to get the value of the expression
+		result = stack.pop();
 
-		
 		return result;
 	}
 

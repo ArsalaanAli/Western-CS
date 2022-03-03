@@ -47,8 +47,8 @@ public class ArrayStack<T> implements StackADT<T> {
 		if (top == stack.length - 1) {
 			expandCapacity();
 		}
-		stack[top] = element;
 		top++;
+		stack[top] = element;
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class ArrayStack<T> implements StackADT<T> {
 	 */
 	public T pop() throws EmptyCollectionException {
 		if (top == -1) {
-			//throw exception if stack is empty
+			throw new EmptyCollectionException("queue is empty");
 		}
 		T ret = stack[top];
 		top--;
@@ -76,7 +76,7 @@ public class ArrayStack<T> implements StackADT<T> {
 	 */
 	public T peek() throws EmptyCollectionException {
 		if (top == -1) {
-			//throw exception
+			throw new EmptyCollectionException("queue is empty");
 		}
 		return stack[top];
 	}
@@ -94,7 +94,7 @@ public class ArrayStack<T> implements StackADT<T> {
 	 * @return int the number of elements in this stack
 	 */
 	public int size() {
-
+		return top+1;
 	}
 
 	/**
@@ -102,7 +102,14 @@ public class ArrayStack<T> implements StackADT<T> {
 	 * @return String representation of this stack
 	 */
 	public String toString() {
-
+		if(top == -1){
+			return "The stack is empty.";
+		}
+		String ret = "Stack:";
+		for(int i = top; i>= 0; i--){
+			ret += " " + stack[i] + (i == 0 ? "." : ",");
+		}
+		return ret;
 	}
 
 	/**
