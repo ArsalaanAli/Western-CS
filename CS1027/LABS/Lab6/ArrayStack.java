@@ -102,7 +102,7 @@ public class ArrayStack<T> implements StackADT<T> {
 	 * @return String representation of this stack
 	 */
 	public String toString() {
-		if(top == -1){
+		if(isEmpty()){
 			return "The stack is empty.";
 		}
 		String ret = "Stack:";
@@ -117,9 +117,9 @@ public class ArrayStack<T> implements StackADT<T> {
 	 * twice the capacity of the old one.
 	 */
 	private void expandCapacity() {
-		T[] larger = (T[])(new Object[stack.length*2]);
+		T[] larger = (T[]) (new Object[stack.length * 2]);
 
-		for (int index=0; index < stack.length; index++)
+		for (int index = 0; index < stack.length; index++)
 			larger[index] = stack[index];
 
 		stack = larger;

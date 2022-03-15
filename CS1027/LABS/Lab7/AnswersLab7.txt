@@ -1,0 +1,29 @@
+Answers for Lab 7
+-----------------------------------------------
+
+EXERCISE 1
+
+1. Which methods in the LinkedQueue class are taking in a parameter of the generic type T?
+enqueue() takes in a parameter of the generic type T.
+
+
+2. Which methods in the LinkedQueue class have a return type of the generic type T?
+first and dequeue() returns the type of generic type T.
+
+
+3. Suppose you didn't have an instance variable storing the current number of elements in the queue. How could you determine the number of elements for the size() method if such an instance variable was not available?
+You can do an O(n) search through the list and count the number of elements in the queue.
+
+
+EXERCISE 2
+
+4. Consider the possibility of using an Array Queue or a Circular Array Queue instead of the Linked Queue being used in this simulation. Would the simulation's results be impacted by switching to a different Queue implementation?
+No, the simulation would be the same.
+
+
+5. Which of these classes/methods would you have to modify if you were going to use one of the other queue implementations?
+you would need to change the enqueue and dequeue methods to account for the empty slots in the other implementations of queues.
+
+
+
+
