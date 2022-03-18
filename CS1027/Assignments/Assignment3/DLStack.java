@@ -13,6 +13,7 @@ public class DLStack<T> implements DLStackADT<T> {
         }
         else{
             top.setNext(new DoubleLinkedNode<T>(dataItem));
+            top.getNext().setPrevious(top);
             top = top.getNext();
         }
         numItems++;
@@ -24,6 +25,7 @@ public class DLStack<T> implements DLStackADT<T> {
         }
         T tmp = top.getElement();
         top = top.getPrevious();
+        numItems--;
         return tmp;
     }
     
@@ -67,8 +69,9 @@ public class DLStack<T> implements DLStackADT<T> {
     public String toString(){
         String str = "[";
         DoubleLinkedNode cur = top;
-        while(cur != null){
+        while (cur != null) {
             str += " " + cur.getElement().toString();
+            cur=cur.getPrevious();
         }
         str += "]";
         return str;
@@ -78,8 +81,9 @@ public class DLStack<T> implements DLStackADT<T> {
         if(cur.getPrevious() != null){
             cur.getPrevious().setNext(cur.getNext());
         }
-        if(cur.getNext() != null){
+        if (cur.getNext() != null) {
             cur.getNext().setPrevious(cur.getPrevious());
         }
+        numItems--;
     }
 }

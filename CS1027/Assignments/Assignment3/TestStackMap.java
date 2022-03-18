@@ -22,14 +22,17 @@ public class TestStackMap {
 		if (testPassed)
 			System.out.println("Test 1 passed");
 		else System.out.println("Test 1 failed");		
-
 		// Test 2. Small stack. Test pop.
 		try {
 			for (int i = 0; i < 5; ++i)
 				val = s.pop();
 			if (val.intValue() == 6 && !s.isEmpty() && s.size() == 6)
 				testPassed = true;
-			else testPassed = false;
+			else {
+				testPassed = false;
+			}
+				
+		System.out.println(val.intValue() + " " + s.size() + s.isEmpty());
 		} catch (Exception e) {
 			testPassed = false;
 		}

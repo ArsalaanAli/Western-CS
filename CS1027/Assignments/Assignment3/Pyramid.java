@@ -33,22 +33,22 @@ public class Pyramid {
 		else return NO_CHECK;
 	}
 	
-	public static void main(String[] args) {
-		/* Check that the user specified an input file */
+public static void main(String[] args) {
+		/* Check that the user specified an input file 
 		if (args.length != 1) {
 			System.out.println("Usage: java Pyramid inputFile");
 			System.out.println("If using Eclipse, you must specify the input file");
 			System.exit(0); // terminate the program
 		}
+		*/
 		try {
-			FindPath program = new FindPath(args[0]);
+			FindPath program = new FindPath("map0.txt");
 			Map pyramidMap = program.getMap();
 			pyramidMap.showMap();
 			DLStack<Chamber> path = program.path();
-
-			int res = checkPath(args[0],path);
-			if (res == TEST_PASSED) System.out.println("Test for map "+args[0]+" passed");
-			else if (res == TEST_FAILED) System.out.println("Test for map "+args[0]+" failed");
+			int res = checkPath("map0.txt",path);
+			if (res == TEST_PASSED) System.out.println("Test for map "+"map0.txt"+" passed");
+			else if (res == TEST_FAILED) System.out.println("Test for map "+"map0.txt"+" failed");
 			else System.out.println("Visually check that the output is correct");
 		}
 		catch (Exception e) {
