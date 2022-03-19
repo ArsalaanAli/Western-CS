@@ -42,13 +42,13 @@ public static void main(String[] args) {
 		}
 		*/
 		try {
-			FindPath program = new FindPath("map0.txt");
+			FindPath program = new FindPath("map1.txt");
 			Map pyramidMap = program.getMap();
 			pyramidMap.showMap();
 			DLStack<Chamber> path = program.path();
-			int res = checkPath("map0.txt",path);
-			if (res == TEST_PASSED) System.out.println("Test for map "+"map0.txt"+" passed");
-			else if (res == TEST_FAILED) System.out.println("Test for map "+"map0.txt"+" failed");
+			int res = checkPath("map1.txt",path);
+			if (res == TEST_PASSED) System.out.println("Test for map "+"map1.txt"+" passed");
+			else if (res == TEST_FAILED) System.out.println("Test for map "+"map1.txt"+" failed");
 			else System.out.println("Visually check that the output is correct");
 		}
 		catch (Exception e) {

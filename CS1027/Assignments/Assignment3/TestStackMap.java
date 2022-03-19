@@ -32,7 +32,6 @@ public class TestStackMap {
 				testPassed = false;
 			}
 				
-		System.out.println(val.intValue() + " " + s.size() + s.isEmpty());
 		} catch (Exception e) {
 			testPassed = false;
 		}
