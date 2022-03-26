@@ -1,0 +1,39 @@
+Answers for Lab 9
+-----------------------------------------------
+
+EXERCISE 1
+
+1. What are the values of x, arr[0], and arr[1] in lines 20, 24, and 27 of MemoryDemo.java?
+x = 2
+arr[0] = 3
+arr[1] = 6
+
+2. If the value of x set in line 18 did not change in method m1 explain why.
+The scope of x inside the function is local because it is a primitive variable, meaning x inside the function does not point to the same global integer, so the function does not change the global value of x.
+
+3. Explain which of arr[0] or arr[1] were changed in methods m2() or m3() and why these values were changed.
+arr[0] was changed because in m2() the array is passed through as an argument because the array is a reference variable, so the changes point to the actual array itself, in m3() an integer is passed through so the changes don't take place.
+
+EXERCISE 3
+
+4. How many activation records are there in the execution stack?
+there are 5
+
+
+5. Write the values of 
+param1 = 1
+local1 = 1
+i = 1
+
+6. How did the execution stack change after you pressed F6 twice?
+there are only 4 activation records in the execution stack
+
+EXERCISE 4
+
+7. Which exception is thrown?
+there is a stack overflow
+
+
+8. Why is this exception thrown?
+there is an infinite recursion loop causing a stack overflow
+
