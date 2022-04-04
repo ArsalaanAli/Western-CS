@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Iterator;
 
 public class TestSki {
@@ -108,7 +107,7 @@ public class TestSki {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return false;
 		}
-		return true;
+		return s == correct.length;
 	}
 	
 }
