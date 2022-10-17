@@ -48,55 +48,57 @@ public class Dictionary implements DictionaryADT {
         while (current.getNextNode() != null) {//searching through linked list for the key
             if (current.getNextNode().getKey().equals(key)) {//if the node after the current node has the right key
                 current.setNextNode(current.getNextNode().getNextNode());//the node is removed from the linked list
-                this.numRecords--;
+                this.numRecords--;//num records is decreased by 1
                 return;
             }
-            current = current.getNextNode();
+            current = current.getNextNode();//if the key wasnt found, we loop to the next node
         }
-        throw new InexistentKeyException("This record does not exist in the dictionary");
+        throw new InexistentKeyException("This record does not exist in the dictionary");//if the node is not found, this exception is thrown
     }
 
-    public Record get(String key) {
-        int hash = polynomialHash(key);
-        if (this.table[hash] == null) {
+    public Record get(String key) {//function to retrive a record from the dictionary
+        int hash = polynomialHash(key);//getting the hash of the key
+        if (this.table[hash] == null) {//if the key is not in the dictionary return null
             return null;
         }
-        Node current = this.table[hash];
-        while (current != null) {
-            if (current.getKey().equals(key)) {
+        Node current = this.table[hash];//if there are records in the dictionary at this spot
+        while (current != null) {//loop through the linked list at the spot
+            if (current.getKey().equals(key)) {//if the key is found in the dictionary, return the record
                 return current.getRecord();
             }
             current = current.getNextNode();
         }
-        return null;
+        return null;//if the key is not found in the linked
     }
 
     public int numRecords() {
-        return this.numRecords;
+        return this.numRecords;//returns the number of records in the dictionary
     }
 
-    private int polynomialHash(String key) {
+    private int polynomialHash(String key) {//function to return the hash of a string
         int hash = 0;
-        int HASHCONSTANT = 33;
-        for (int i = 0; i < key.length(); i++) {
+        int HASHCONSTANT = 33;//a constant used for the polynomial hash function 
+        for (int i = 0; i < key.length(); i++) {//looping through characters in the key
             char currentChar = key.charAt(i);
-            hash += currentChar * Math.pow(HASHCONSTANT, key.length() - i - 1.0);
-            hash %= table.length;
+            hash += currentChar * Math.pow(HASHCONSTANT, key.length() - i - 1.0);//calculating the current turn of the hash and adding it to the hash
+            hash %= table.length;//modulus the has by the length of the table
         }
-        return hash;
+        return hash;//return the calculated hash
     }
 }
 
-class Record {
-    private String key;
-    private int score, level;
+class Record {//record class, holds information about the state of the board
+    //instance variables
+    private String key;//string to hold gamestate
+    private int score, level;//holds the score and level of the gamestate
 
-    public Record(String key, int score, int level) {
+    public Record(String key, int score, int level) {//constructor sets the value of the instance variables to the parameters
         this.key = key;
         this.score = score;
         this.level = level;
     }
 
+    //getter functions for instance variables
     public String getKey() {
         return this.key;
     }
@@ -110,15 +112,17 @@ class Record {
     }    
 }
 
-class Node {
-    private Record rec;
-    private Node nextNode;
+class Node {//custom linked list node class, wrapper for Record class
+    //instance variables
+    private Record rec;//holds the record value
+    private Node nextNode;//points to the next node
 
-    public Node(Record rec) {
+    public Node(Record rec) {//constructor sets the value of the instance variables to the parameters
         this.rec = rec;
         this.nextNode = null;
     }
     
+    //getter functions for instance variables
     public String getKey() {
         return rec.getKey();
     }
@@ -130,7 +134,7 @@ class Node {
     public Record getRecord() {
         return this.rec;
     }
-
+    //setter function for nextNode
     public void setNextNode(Node next){
         this.nextNode = next;
     }
