@@ -18,12 +18,12 @@ public class Evaluate {
     }
 
     public Record repeatedState(Dictionary dict) {
-        String gameState = this.getGameState();
+        String gameState = getGameState();
         return dict.get(gameState);//checks if the game state exists in the dictionary and returns the corresponding record if it does, otherwise returns null
     }
     
     public void insertState(Dictionary dict, int score, int level) {
-        String gameState = this.getGameState();
+        String gameState = getGameState();
         Record curRecord = new Record(gameState, score, level);//creates a record for the given parameters and the current gameState
         dict.put(curRecord);//adds the created record to the dictionary
     }
