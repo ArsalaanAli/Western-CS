@@ -1,0 +1,39 @@
+Assignment 3 Part 2: Short
+1) Files
+1. use the "printf '%s\n' *" command, it prints out each file and directory located in the current directory.
+
+2. The option "-i" can be used ("rm -i") to ensure that the user is prompted before a file or directory is removed. 
+   The option "-f" can be used ("rm -f") to ensure that the user is not prompted before a file or directory is removed. 
+   If both are used, the one that is entered last will have precedence.
+
+3. The "rename" is used to rename multiple files by retrieving all files that contain the search term. The "rename" command will rename all the files by replacing the search term in the file name with the desired term. "rename" can also make multiple name changes in one command wit techniques like wildcarding. 
+   The "mv" command is used to move a file to a new directory, it can also rename the file to the new name if a directory with the new name does not currently exist.
+   but "mv" can only make one name change per call.
+
+4. ELF stands for "executable and linkable format", meaning that the file is standard format for executable can be executed by the computer. ELF is the format of the executable file.
+
+5. "ls -l text.txt" shows the file size as 0 because the "ls" command displays the apparent size of the file.
+   there is no readable information in the empty test.txt file so the apparent size of the file will be 0.
+   "du test.txt" shows the file size as 1 because the "du" commmand displays the actual size of the file on the disk.
+
+2) Directories
+1. "mkdir -p grandparent/parent/child" will create all three directories, the "-p" option will create all the missing parent directories. 
+
+2. To create a directory with a space in it, you can use a back slash beside each space you want in the directory's name ("mkdir test\ dir"). if we want to remove a directory with a space in it we can also use a backslash ("rmdir test\ dir").
+
+3. To create a directory and set its permission to dr-x------ use the command "mkdir -m 500 filename"
+
+4. Use the "cd -" command to return to the previous directory you were working in. 
+
+5. From the top of the stack "dirs -v" will allow you to see the indexes of all of the directories in the stack. "pushd +4" will allow you to jump to the 6th folder in the stack.
+
+3) Permissions
+1. To print out the modifications being made, you can add "-c" ("chmod -c").
+
+2. Use the "--reference=file1" option to get file2 ownership to simply match file1 ("chown --reference=file1 file2").
+
+3. Add the options "%A" for the file permission, "%U" for the user ownership, and "%G" for displaying the group ownership ('stat -c "%A %U %G" fileName').
+
+4. We can grant the group permission to write data to a file while not changing their other permissions by using "chmod g+w fileName", which would give the group permission to write to the file. Then use "chmod +t directoryName" to the directory so that the group cannot rename, delete, or move the file.
+
+5. If u/g/o/a are omitted, the permission changes apply to everyone (user, group, and other).
