@@ -37,9 +37,20 @@ public class BinarySearchTree implements BinarySearchTreeADT{
         if (curLoc.compareTo(data.getLocation()) == 0) {
             throw new DuplicatedKeyException("Key already exists in the BST");
         }
-        if (dataLoc.compareTo(curLoc) == -1) {
+        else if (dataLoc.compareTo(curLoc) == -1) {
             if (r.leftChild() == null) {
-                r.setLeftChild()
+                r.setLeftChild(new BNode(data, null, null, r));
+            }
+            else{
+                put(r.leftChild(), data);
+            }
+        }
+        else if (dataLoc.compareTo(curLoc) == 1) {
+            if (r.rightChild() == null) {
+                r.setRightChild(new BNode(data, null, null, r))
+            }
+            else{
+                put(r.rightChild(), data);
             }
         }
     }
