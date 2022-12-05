@@ -1,16 +1,25 @@
-public class BNode {
-    private Pel value;
-    private BNode left = null;
-    private BNode right = null;
-    private BNode parent = null;
+public class BNode {//node class for bst
+    private Pel value;//private field variables
+    private BNode left;
+    private BNode right;
+    private BNode parent;
     
-    public BNode(Pel value, BNode left, BNode right, BNode parent) {
+    public BNode(Pel value, BNode left, BNode right, BNode parent) {//initialize a node with given values
         this.value = value;
         this.left = left;
         this.right = right;
         this.parent = parent;
     }
 
+    public BNode() {
+        this.value = null;//initialize an empty node
+        this.left = null;
+        this.right = null;
+        this.parent = null;
+    }
+
+
+    //GETTERS AND SETTERS, RETURN AND SET VALUES OF FIELD VARIABLES
     public BNode parent() {
         return this.parent;
     }

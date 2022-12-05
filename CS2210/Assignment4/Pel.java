@@ -1,17 +1,17 @@
-public class Pel {
+public class Pel {//Pel obejct
     private Location loc;
-    private int col;
+    private int col;//holds a location and a color
 
-    public Pel(Location p, int color) {
+    public Pel(Location p, int color) {//initializes the location and color
         loc = p;
         col = color;
     }
     
-    public Location getLocation() {
+    public Location getLocus() {//returns the location
         return loc;
     }
 
-    public int getCol() {
+    public int getColor() {//returns the color
         return col;
     }
 

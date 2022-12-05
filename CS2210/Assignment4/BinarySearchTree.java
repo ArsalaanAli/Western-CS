@@ -1,132 +1,156 @@
-public class BinarySearchTree implements BinarySearchTreeADT{
+public class BinarySearchTree implements BinarySearchTreeADT {//Binary Search Tree Data Structure
 
     private BNode root;
-
+    
     public BinarySearchTree() {
-        this.root = null;
+        this.root = new BNode();//initialize the root node;
     }
 
     public BNode getRoot() {
-        return this.root;
+        return this.root;//return the root node
     }
 
     public Pel get(BNode r, Location key) {
         BNode ans = getBNode(r, key);
-        return (ans == null ? null : ans.getData());
+        return (ans == null ? null : ans.getData());//get the given data from the tree
     }
 
-    private BNode getBNode(BNode r, Location key) {
-        if (r == null) {
-            return null;
+    private BNode getBNode(BNode r, Location key) {//private helper function, finds the node with the given key and returns it
+        if (r.isLeaf()) {//check if at empty node
+            return null;//if no node is found null is returned
         }
+        Location curLoc = r.getData().getLocus();//
 
-        Location curLoc = r.getData().getLocation();
-        if (key.compareTo(curLoc) == 0) {
+
+        if (key.compareTo(curLoc) == 0) {//check if we're at the node we're looking for
             return r;
         }
-        if (r.isLeaf()) {
-            return null;
-        }
-        if (key.compareTo(curLoc) == -1) {
+
+        if (key.compareTo(curLoc) == -1) {//if the target node is smaller we go left
+            if (r.leftChild().isLeaf()) {
+                return null;
+            }
             return getBNode(r.leftChild(), key);
         }
-        if (key.compareTo(curLoc) == 1) {
+        if (key.compareTo(curLoc) == 1) {//if the target node is bigger we go right
+            if (r.rightChild().isLeaf()) {
+                return null;
+            }
             return getBNode(r.rightChild(), key);
         }
+        return null;//if no node is found null is returned
     }
 
-    public void put(BNode r, Pel data) throws DuplicatedKeyException {
-        Location curLoc = r.getData().getLocation();
-        Location dataLoc = data.getLocation();
-
-        if (curLoc.compareTo(data.getLocation()) == 0) {
-            throw new DuplicatedKeyException("Key already exists in the BST");
-        }
-        else if (dataLoc.compareTo(curLoc) == -1) {
-            if (r.leftChild() == null) {
-                r.setLeftChild(new BNode(data, null, null, r));
-            }
-            else{
-                put(r.leftChild(), data);
-            }
-        }
-        else if (dataLoc.compareTo(curLoc) == 1) {
-            if (r.rightChild() == null) {
-                r.setRightChild(new BNode(data, null, null, r));
-            }
-            else{
-                put(r.rightChild(), data);
-            }
-        }
-    }
-
-    public void remove(BNode r, Location key) throws InexistentKeyException {
-        BNode removeNode = getBNode(r, key);
-        if (removeNode == null) {
-            throw InexistentKeyException("This key does not exist in the BST");
-        }
-        if (removeNode.isLeaf()) {
-            replaceChild(removeNode, null);
+    public void put(BNode r, Pel data) throws DuplicatedKeyException {//put some data inside the tree
+        if (r.isLeaf()) {//if the node is empty, we can put the given data inside
+            r.setContent(data);
+            r.setLeftChild(new BNode());
+            r.setRightChild(new BNode());
             return;
         }
-        if (removeNode.leftChild() != null && removeNode.rightChild() == null) {
+
+        Location curLoc = r.getData().getLocus();
+        Location dataLoc = data.getLocus();
+
+        if (curLoc.compareTo(dataLoc) == 0) {//if the data is already in the tree throw exception
+            throw new DuplicatedKeyException("Key already exists in the BST");
+        }
+
+        else if (dataLoc.compareTo(curLoc) == -1) {
+            put(r.leftChild(), data);//if the data is smaller than the current node go left
+        }
+
+        else if (dataLoc.compareTo(curLoc) == 1) {
+            put(r.rightChild(), data);//if the data is bigger than the current node go right
+        }
+    }
+
+    public void remove(BNode r, Location key) throws InexistentKeyException {//removes the given node from the tree
+
+        BNode removeNode = getBNode(r, key);//find the node to be removed
+
+        if (removeNode == null) {
+            throw new InexistentKeyException("This key does not exist in the BST");//if the node doesnt exsit throw exception
+        }
+
+        if (removeNode.leftChild().isLeaf() && removeNode.rightChild().isLeaf()) {//if the node is a leaf then just set it to an empty node
+            if (removeNode.parent() == null) {
+                removeNode.setContent(null);
+                removeNode.setLeftChild(null);
+                removeNode.setRightChild(null);
+                return;
+            }
+            replaceChild(removeNode, new BNode());
+            return;
+        }
+        
+        if (removeNode.leftChild().isLeaf()) {
+            replaceChild(removeNode, removeNode.rightChild());//if the node only has one child then repalce the node with the child
+            return;
+        }
+        if (removeNode.rightChild().isLeaf()) {
             replaceChild(removeNode, removeNode.leftChild());
             return;
         }
-        if (removeNode.leftChild() == null && removeNode.rightChild() != null) {
-            replaceChild(removeNode, removeNode.rightChild());
-            return;
-        }
-        if (removeNode.leftChild() != null && removeNode.rightChild() != null) {
-            BNode successor = successorBNode(r, key);
-            remove(r, successor.getData().getLocation());
-            removeNode.setContent(successor.getData());
-        }
+
+        
+        
+        BNode successor = successorBNode(r, key);//otherwise find the successor and replace the node with the successor
+
+        Pel replaceData = successor.getData();
+        remove(r, successor.getData().getLocus());
+
+        removeNode.setContent(replaceData);
+
     }
 
-    private void replaceChild(BNode child, BNode replace) {
-        BNode parent = child.parent();
-        if (parent.leftChild() == child) {
-            parent.setLeftChild(replace);
-        } else if (parent.rightChild() == child) {
-            parent.setRightChild(replace);
-        }
+
+    private void replaceChild(BNode child, BNode replace) {//private function to replace the current node with the content of another node
+        child.setContent(replace.getData());
+        child.setLeftChild(replace.leftChild());
+        child.setRightChild(replace.rightChild());
     }
 
-    public Pel successor(BNode r, Location key) {
+    public Pel successor(BNode r, Location key) {//returns the successor of the given key
         BNode ans = successorBNode(r, key);
         return (ans == null ? null : ans.getData());
     }
 
-    private BNode successorBNode(BNode r, Location key){
-        if (r == null) {
+    private BNode successorBNode(BNode r, Location key) {//private function to return the successor of the given key
+		
+        if (r.isLeaf()) {//if the current node is a lead then there is no successor for this subtree
             return null;
         }
-        Location curLoc = r.getData().getLocation();
+        Location curLoc = r.getData().getLocus();
+
 
         if (key.compareTo(curLoc) >= 0) {
-            return successorBNode(r.rightChild(), key);
+            return successorBNode(r.rightChild(), key);//if the key is bigger than the current node, go right
         }
-        if (key.compareTo(curLoc) == -1) {
+
+
+        if (key.compareTo(curLoc) == -1) {//if the key is less than the current node go left
+            
             BNode other = successorBNode(r.leftChild(), key);
             if (other == null) {
-                return r;
+                return r;//if the left subtree doesnt not have a valid successor, return the current node
             } else {
-                return other;
+                return other;//if the left subtree has a valid successor return it
             }
         }
+        return null;
     }
     
-    public Pel predecessor(BNode r, Location key) {
+    public Pel predecessor(BNode r, Location key) {// returns the predecessor  of the given key
         BNode ans = predecessorBNode(r, key);
         return (ans == null ? null : ans.getData());
     }
 
-    private BNode predecessorBNode(BNode r, Location key) {
-        if (r == null) {
+    private BNode predecessorBNode(BNode r, Location key) {//same as successor function but reversed directions
+        if (r.isLeaf()) {
             return null;
         }
-        Location curLoc = r.getData().getLocation();
+        Location curLoc = r.getData().getLocus();
 
         if (key.compareTo(curLoc) <= 0) {
             return predecessorBNode(r.leftChild(), key);
@@ -139,6 +163,25 @@ public class BinarySearchTree implements BinarySearchTreeADT{
                 return other;
             }
         }
+        return null;
     }
 
+    public Pel smallest(BNode r) throws EmptyTreeException {//finds the smallest node in the tree
+        if (r.isLeaf()) {
+            throw new EmptyTreeException("Tree is empty");
+        }
+        while (!r.leftChild().isLeaf()) {//returns the farthest left child in tree
+            r = r.leftChild();
+        }
+        return r.getData();
+    }
+    public Pel largest(BNode r) throws EmptyTreeException{//finds the largest node in the tree
+        if (r.isLeaf()) {
+            throw new EmptyTreeException("Tree is empty");
+        }
+        while (!r.rightChild().isLeaf()) {//returns the farthest right child in tree
+            r = r.rightChild();
+        }
+        return r.getData();
+    }
 }
