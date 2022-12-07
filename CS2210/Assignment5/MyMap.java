@@ -74,12 +74,28 @@ public class MyMap {
     public Graph getGraph() {
         return graph;
     }
+
+    public int getStartingNode() {
+        return start;
+    }
+
+    public int getDestinationNode() {
+        return end;
+    }
+
+    public int maxPrivateRoads() {
+        return privateRoads;
+    }
+
+    public int maxConstructionRoads() {
+        return constRoads;
+    }
     
     public static void main(String[] args) {
         try{
             MyMap map = new MyMap("map0");
             Graph gr = map.getGraph();
-            Iterator<Edge> iter = gr.incidentEdges(gr.getNode(0));
+            Iterator<Edge> iter = gr.incidentEdges(gr.getNode(6));
             while (iter.hasNext()) {
                 Edge e = iter.next();
                 System.out.println(e.firstNode().getId() + " " +e.secondNode().getId() + "THESE TWO NODES ARE CONNECTED");
