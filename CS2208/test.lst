@@ -1,0 +1,54 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             prog, CODE, READONLY
+    2 00000000                 ENTRY
+    3 00000000 E3A00006        MOV              r0, #6
+    4 00000004 E3A01008        MOV              r1, #8
+    5 00000008 E2600000        NEG              r0, r0
+    6 0000000C E2611000        NEG              r1, r1
+    7 00000010 E0800001 
+                       for     ADD              r0, r0, r1
+    8 00000014 E2911002        ADDS             r1, r1, #2
+    9 00000018 DAFFFFFC        BLE              for
+   10 0000001C EAFFFFFE 
+                       halt    B                halt
+   11 00000020                 END
+Command Line: --debug --xref --bi --apcs=interwork --depend=.\test.d -o.\test.o
+ -IC:\Keil\ARM\RV31\INC -IC:\Keil\ARM\CMSIS\Include --predefine="__EVAL SETA 1"
+ --list=.\test.lst test.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+for 00000010
+
+Symbol: for
+   Definitions
+      At line 7 in file test.s
+   Uses
+      At line 9 in file test.s
+Comment: for used once
+halt 0000001C
+
+Symbol: halt
+   Definitions
+      At line 10 in file test.s
+   Uses
+      At line 10 in file test.s
+Comment: halt used once
+prog 00000000
+
+Symbol: prog
+   Definitions
+      At line 1 in file test.s
+   Uses
+      None
+Comment: prog unused
+3 symbols
+334 symbols in table

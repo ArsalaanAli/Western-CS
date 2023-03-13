@@ -95,7 +95,8 @@ public class MyMap {
             Node endNode = getGraph().getNode(destination);//getting the start and destination nodes from the graph
             ArrayList<Node> nodeList =  new ArrayList<Node>();//an arraylist to hold the path from the start to the destination
             nodeList.add(startNode);//adding the start node to the path list
-            return pathFinding(startNode, endNode, maxPrivate, maxConstruction, 0, 0, nodeList).iterator();//using helper function to recursively find path
+            ArrayList<Node> path = pathFinding(startNode, endNode, maxPrivate, maxConstruction, 0, 0, nodeList);
+            return path == null ? null : path.iterator();//using helper function to recursively find path
         }
         catch (Exception e) {
             System.out.println(e);
