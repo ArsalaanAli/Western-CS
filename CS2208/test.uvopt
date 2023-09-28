@@ -124,7 +124,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>0x0</ItemText>
+          <ItemText>0x00</ItemText>
         </Mm>
       </MemoryWindow1>
       <Tracepoint>
@@ -175,8 +175,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>10</CurrentLine>
+      <TopLine>2</TopLine>
+      <CurrentLine>24</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\test.s</PathWithFileName>
       <FilenameWithoutPath>test.s</FilenameWithoutPath>

@@ -23,7 +23,7 @@ divide      SUBS r1, #TEN                       ; r1-10, check if divisible
             MOVLT r0, #ZERO                     ; otherwise the UPC code is incorrect
 Loop        B    Loop                           ; endless loop to finish
 
-UPC         DCB "000000000005"                  ; a upc code
+UPC         DCB "999999999999"                  ; a upc code
 FIRSTBIT   EQU 2_1                             ; AND bits for first bit to determine if even/odd
 FIRSTDIGIT EQU 0xF                             ; AND bits for first digit of an ASCII number
 ZERO        EQU 0                               ; zero 
