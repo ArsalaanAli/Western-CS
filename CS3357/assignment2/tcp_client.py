@@ -1,4 +1,4 @@
-# Assignment: UDP Simple Chat Room - UDP Client Code Implementation
+# Assignment: TCP Simple Chat Room - TCP Client Code Implementation
 
 # **Libraries and Imports**:
 #    - Import the required libraries and modules.
@@ -21,7 +21,7 @@ import threading
 def receive_messages(client):
     while True:
         try:
-            message, server_address = client.recvfrom(1024)
+            message = client.recv(1024).decode('utf-8')
             if message:
                 print(
                     "\u001B[s"             # Save current cursor position
@@ -30,8 +30,7 @@ def receive_messages(client):
                     "\u001B[S"             # Scroll up/pan window down 1 line
                     "\u001B[L",            # Insert new line
                     end="")
-                # Print message line
-                print(message.decode('utf-8'), end="")
+                print(message, end="")        # Print message line
                 # Move back to the former cursor position
                 print("\u001B[u", end="")
                 print("", end="", flush=True)  # Flush message
@@ -40,31 +39,31 @@ def receive_messages(client):
             break
 
 
-def run(clientSocket, clientName, serverAddr, serverPort):
-    # The main client function.
-    clientSocket.bind(('0.0.0.0', 0))  # Bind to a random available local port
+def run(clientSocket, clientname):
+    clientSocket.send(clientname.encode('utf-8'))
+
+    # Start a thread to handle incoming messages
     receive_thread = threading.Thread(
         target=receive_messages, args=(clientSocket,))
     receive_thread.start()
-    clientSocket.sendto(clientName.encode('utf-8'), (serverAddr, serverPort))
 
     # Start sending messages
     while True:
-        message = input(clientName + ": ")
-        clientSocket.sendto(message.encode('utf-8'), (serverAddr, serverPort))
+        message = input(clientname + ": ")
+        clientSocket.send(message.encode('utf-8'))
+    pass
 
 
 # **Main Code**:
 if __name__ == "__main__":
-
-    # Arguments: name address
-    parser = argparse.ArgumentParser(description='argument parser')
-    parser.add_argument('name')  # to use: python udp_client.py username
+    parser = argparse.ArgumentParser(description='Argument Parser')
+    parser.add_argument('name')  # to use: python tcp_client.py username
     args = parser.parse_args()
-    clientname = args.name
-    serverAddr = '127.0.0.1'
-    serverPort = 9301
-    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # UDP
+    client_name = args.name
+    server_addr = '127.0.0.1'
+    server_port = 9301
 
-    # Calling the function to start the client.
-    run(clientSocket, clientname, serverAddr, serverPort)
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # TCP
+    client_socket.connect((server_addr, server_port))
+
+    run(client_socket, client_name)
