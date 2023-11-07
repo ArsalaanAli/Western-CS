@@ -1,10 +1,24 @@
+# Assignment: UDP Simple Chat Room - UDP Client Code Implementation
+
+# **Libraries and Imports**:
+#    - Import the required libraries and modules.
+#    You may need sys, socket, argparse, select, threading (or _thread) libraries for the client implementation.
+#    Feel free to use any libraries as well.
+import argparse
 import socket
 import threading
 
-# Function to receive and display messages
+# **Global Variables**:
+#    - IF NEEDED, Define any global variables that will be used throughout the code.
+
+# **Function Definitions**:
+#    - In this section, you will implement the functions you will use in the client side.
+#    - Feel free to add more other functions, and more variables.
+#    - Make sure that names of functions and variables are meaningful.
+#    - Take into consideration error handling, interrupts,and client shutdown.
 
 
-def receive_messages():
+def receive_messages(client):
     while True:
         try:
             message, server_address = client.recvfrom(1024)
@@ -26,25 +40,31 @@ def receive_messages():
             break
 
 
-# Get the user's username
-username = input("Enter your username: ")
+def run(clientSocket, clientName, serverAddr, serverPort):
+    # The main client function.
+    clientSocket.bind(('0.0.0.0', 0))  # Bind to a random available local port
+    receive_thread = threading.Thread(
+        target=receive_messages, args=(clientSocket,))
+    receive_thread.start()
+    clientSocket.sendto(clientName.encode('utf-8'), (serverAddr, serverPort))
 
-# Create a socket for the client
-client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-client.bind(('0.0.0.0', 0))  # Bind to a random available local port
+    # Start sending messages
+    while True:
+        message = input(clientName + ": ")
+        clientSocket.sendto(message.encode('utf-8'), (serverAddr, serverPort))
 
-# Server address and port
-server_ip = '127.0.0.1'  # Replace with the server's IP address or hostname
-server_port = 9301       # Replace with the server's port
 
-# Start a thread to handle incoming messages
-receive_thread = threading.Thread(target=receive_messages)
-receive_thread.start()
+# **Main Code**:
+if __name__ == "__main__":
 
-# Join the chatroom by sending the username to the server
-client.sendto(username.encode('utf-8'), (server_ip, server_port))
+    # Arguments: name address
+    parser = argparse.ArgumentParser(description='argument parser')
+    parser.add_argument('name')  # to use: python udp_client.py username
+    args = parser.parse_args()
+    clientname = args.name
+    serverAddr = '127.0.0.1'
+    serverPort = 9301
+    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # UDP
 
-# Start sending messages
-while True:
-    message = input(username + ": ")
-    client.sendto(message.encode('utf-8'), (server_ip, server_port))
+    # Calling the function to start the client.
+    run(clientSocket, clientname, serverAddr, serverPort)

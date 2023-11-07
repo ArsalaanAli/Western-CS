@@ -46,7 +46,7 @@ def handle_client(client, server):
             broadcast(message.encode('utf-8'), client, server)
         except Exception as e:
             # Handle exceptions and remove the disconnected client
-            print(f"Error receiving message from a client: {e}")
+            print(f"{usernames[clients.index(client)]} has left the server")
             index = clients.index(client)
             clients.pop(index)
             client.close()
