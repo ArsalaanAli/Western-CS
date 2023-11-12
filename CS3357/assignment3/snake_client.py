@@ -5,7 +5,10 @@ import pygame
 server_addr = 'localhost'
 server_port = 5555
 
-gameState = [[], []]
+gameState = ""
+width = 500  # Width of our screen
+height = 500  # Height of our screen
+rows = 20  # Amount of rows
 
 
 def redrawWindow(surface):
@@ -28,38 +31,59 @@ def drawGrid(w, rows, surface):
         pygame.draw.line(surface, (255, 255, 255), (0, y), (w, y))
 
 
-def drawCube():
-    global width, rows
-    dis = width // rows
-
-# pos = (10, 10)
-
-
-def parseGameState(state):
-    if state == "":
-        return
+def parseGameState():
     global gameState
-    snake, snacks = state.split("|")
+    if gameState == "":
+        return [[], []]
+    snake, snacks = gameState.split("|")
     snake = snake.split("*")
     snakeArray = []
     for snakeCube in snake:
         snakeTuple = eval(snakeCube)
         snakeArray.append(snakeTuple)
-    gameState[0] = snakeArray
     snacks = snacks.split("**")
     snackArray = []
     for snackCube in snacks:
         snackTuple = eval(snackCube)
         snackArray.append(snackTuple)
-    gameState[1].append(snackArray)
-    print(gameState, "PARSED GAME STATE")
+    return [snakeArray, snackArray]
 
 
-def displayGame():
+def drawCube(surface, pos, color, eyes=False):
     global width, rows
-    width = 500  # Width of our screen
-    height = 500  # Height of our screen
-    rows = 20  # Amount of rows
+    dis = width // rows
+    i = pos[0]
+    j = pos[1]
+
+    pygame.draw.rect(surface, color, (i*dis+1, j*dis+1, dis-2, dis-2))
+    if eyes:
+        centre = dis//2
+        radius = 3
+        circleMiddle = (i*dis+centre-radius, j*dis+8)
+        circleMiddle2 = (i*dis + dis - radius*2, j*dis+8)
+        pygame.draw.circle(surface, (0, 0, 0), circleMiddle, radius)
+        pygame.draw.circle(surface, (0, 0, 0), circleMiddle2, radius)
+    pygame.display.update()
+
+
+def handleClient(client):
+    global gameState
+    while True:
+        try:
+            client.send("up".encode('utf-8'))
+            client.settimeout(1)
+            message = client.recv(500).decode('utf-8')
+            if message:
+                gameState = message
+        except socket.timeout:
+            pass
+        except Exception as e:
+            print(f"Error receiving message: {e}")
+            break
+
+
+def run():
+    global width, rows, gameState
 
     win = pygame.display.set_mode((width, height))  # Creates our screen object
 
@@ -68,28 +92,30 @@ def displayGame():
     flag = True
     # STARTING MAIN LOOP
     while flag:
+        for event in pygame.event.get():
+
+            # if event is of type quit then set
+            # running bool to false
+            if event.type == pygame.QUIT:
+                running = False
         # This will delay the game so it doesn't run too quickly
         pygame.time.delay(50)
         clock.tick(10)  # Will ensure our game runs at 10 FPS
         redrawWindow(win)  # This will refresh our screen
-
-
-def run(client):
-    print("running")
-    while True:
-        try:
-            print("sending")
-            client.send("get".encode('utf-8'))
-            print("receiving")
-            message = client.recv(1024).decode('utf-8')
-            if message:
-                parseGameState(message)
-        except Exception as e:
-            print(f"Error receiving message: {e}")
-            break
+        curGameState = parseGameState()
+        for snakeCube in curGameState[0]:
+            drawCube(win, snakeCube, (255, 0, 0))
+        for snackCube in curGameState[1]:
+            drawCube(win, snackCube, (255, 255, 255))
 
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # TCP
 client_socket.connect((server_addr, server_port))
+client_thread = threading.Thread(
+    target=handleClient, args=(client_socket,))
+client_thread.start()
+run()
 
-run(client_socket)
+# receive_thread = threading.Thread(
+#     target=receive_messages, args=(clientSocket,))
+# receive_thread.start()

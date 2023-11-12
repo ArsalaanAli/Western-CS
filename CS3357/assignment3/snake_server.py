@@ -64,11 +64,8 @@ def main():
 
     start_new_thread(game_thread, ())
 
-    print(game_state)
     while True:
-        print("receiving")
         data = conn.recv(500).decode()
-        print("sending")
         conn.send(game_state.encode())
 
         move = None
