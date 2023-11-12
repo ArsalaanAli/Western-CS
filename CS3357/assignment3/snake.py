@@ -136,11 +136,11 @@ class SnakeGame:
         still_ids = set(self.players.keys()) - moves_ids
         for move in moves:
             self.move_player(move[0], move[1])
-            # print("moving player {} to {}".format(move[0], move[1]))
+            print("moving player {} to {}".format(move[0], move[1]))
 
         for still_id in still_ids:
             self.move_player(still_id, None)
-            # print("moving player {} in the same direction".format(still_id))
+            print("moving player {} in the same direction".format(still_id))
 
         for p_id in self.players.keys():
             if self.check_collision(p_id):

@@ -6,6 +6,7 @@ server_addr = 'localhost'
 server_port = 5555
 
 gameState = ""
+direction = "up"
 width = 500  # Width of our screen
 height = 500  # Height of our screen
 rows = 20  # Amount of rows
@@ -67,10 +68,10 @@ def drawCube(surface, pos, color, eyes=False):
 
 
 def handleClient(client):
-    global gameState
+    global gameState, direction
     while True:
         try:
-            client.send("up".encode('utf-8'))
+            client.send(direction.encode('utf-8'))
             client.settimeout(1)
             message = client.recv(500).decode('utf-8')
             if message:
@@ -83,7 +84,7 @@ def handleClient(client):
 
 
 def run():
-    global width, rows, gameState
+    global width, rows, gameState, direction
 
     win = pygame.display.set_mode((width, height))  # Creates our screen object
 
@@ -93,7 +94,15 @@ def run():
     # STARTING MAIN LOOP
     while flag:
         for event in pygame.event.get():
-
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    direction = "up"
+                elif event.key == pygame.K_DOWN:
+                    direction = "down"
+                elif event.key == pygame.K_RIGHT:
+                    direction = "right"
+                elif event.key == pygame.K_LEFT:
+                    direction = "left"
             # if event is of type quit then set
             # running bool to false
             if event.type == pygame.QUIT:
@@ -103,8 +112,11 @@ def run():
         clock.tick(10)  # Will ensure our game runs at 10 FPS
         redrawWindow(win)  # This will refresh our screen
         curGameState = parseGameState()
-        for snakeCube in curGameState[0]:
-            drawCube(win, snakeCube, (255, 0, 0))
+        for i, snakeCube in enumerate(curGameState[0]):
+            if i == 0:
+                drawCube(win, snakeCube, (255, 0, 0), True)
+            else:
+                drawCube(win, snakeCube, (255, 0, 0))
         for snackCube in curGameState[1]:
             drawCube(win, snackCube, (255, 255, 255))
 
@@ -115,7 +127,3 @@ client_thread = threading.Thread(
     target=handleClient, args=(client_socket,))
 client_thread.start()
 run()
-
-# receive_thread = threading.Thread(
-#     target=receive_messages, args=(clientSocket,))
-# receive_thread.start()
