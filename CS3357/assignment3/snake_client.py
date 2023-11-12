@@ -118,7 +118,7 @@ def run():
             else:
                 drawCube(win, snakeCube, (255, 0, 0))
         for snackCube in curGameState[1]:
-            drawCube(win, snackCube, (255, 255, 255))
+            drawCube(win, snackCube, (0, 255, 0))
 
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # TCP
