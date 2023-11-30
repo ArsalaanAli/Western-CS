@@ -1,4 +1,0 @@
-x = "I am interested in applying to HubSpot because I love coding and I think working in an environment like HubSpot's would be a great way for me to develop my programming skills. For the past few years I have been working on my own projects, things like games, scripts, and webapps. On top of that I did competitive programming in highschool and learned how to use a bunch of algorithms and datastuctures. These were great ways for me to learn how to code and now I think working in an environment where I can put these skills to use while working with other people on larger scale projects is the best way for me to grow in the tech world. I think HubSpot is the perfect place for me to use all of the things I've learned over these past few years and grow as a programmer."
-inp = input()
-ans = x.replace("HubSpot", inp)
-print(ans)
