@@ -1,0 +1,10 @@
+A1 balance 5000
+A2 balance 5000
+A3 balance 5000
+A4 balance 5000
+A5 balance 5000
+C1 deposit A2 1000
+C2 withdraw A1 300 deposit A4 200
+C3 deposit A3 500 withdraw A4 400 withdraw A1 100
+C4 withdraw A1 40000 withdraw A2 800
+C5 withdraw A5 5000
