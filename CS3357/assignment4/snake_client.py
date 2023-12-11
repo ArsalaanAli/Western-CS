@@ -1,6 +1,9 @@
 import socket
 import threading
 import pygame
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import hashes, serialization
 
 server_addr = 'localhost'
 server_port = 5555
@@ -12,6 +15,10 @@ sendState = True
 width = 500  # Width of our screen
 height = 500  # Height of our screen
 rows = 20  # Amount of rows
+
+client_private_key = ""
+client_public_key = ""
+server_public_key = ""
 
 
 def redrawWindow(surface):
@@ -79,29 +86,75 @@ def drawCube(surface, pos, color, eyes=False):
 
 
 def handleClient(client):
-    global gameState, instruction, messageSend, sendState
+    global gameState, instruction, messageSend, sendState, server_public_key, client_private_key
     while True:
         try:
             if messageSend > 0:
-                client.send(("m"+str(messageSend)).encode('utf-8'))
+                print("SENDING MESSAGE")
+                client.send(encrypt_message(
+                    server_public_key, ("m"+str(messageSend))))
+                print("MESSAGE SENT")
                 messageSend = 0
                 sendState = False
             else:
                 if sendState:
-                    client.send(instruction.encode('utf-8'))
+                    client.send(encrypt_message(
+                        server_public_key, instruction))
                 client.settimeout(1)
-                message = client.recv(500).decode('utf-8')
+                message = client.recv(500)
+                try:
+                    message = message.decode('utf-8')
+                except:
+                    pass
                 if message:
-                    if message[0] == 'M':
+                    if message[0] == '(' or message[0] == '|':
+                        gameState = message
+                    else:
+                        print("DECRYPTING")
+                        message = decrypt_message(client_private_key, message)
                         print(message[1::])
                         sendState = True
-                    else:
-                        gameState = message
         except socket.timeout:
             pass
         except Exception as e:
             print(f"Error receiving message: {e}")
             break
+
+
+def generate_keys():
+    global client_private_key, client_public_key
+    client_private_key = rsa.generate_private_key(
+        public_exponent=65537,
+        key_size=2048,
+        backend=default_backend()
+    )
+
+    client_public_key = client_private_key.public_key()
+
+
+def encrypt_message(public_key, message):
+    ciphertext = public_key.encrypt(
+        message.encode('utf-8'),
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+    return ciphertext
+
+
+def decrypt_message(private_key, ciphertext):
+    print("DECRYPTING")
+    plaintext = private_key.decrypt(
+        ciphertext,
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+    return plaintext.decode('utf-8')
 
 
 def run():
@@ -150,8 +203,17 @@ def run():
             drawCube(win, snackCube, (0, 255, 0))
 
 
+generate_keys()
+public_key_bytes = client_public_key.public_bytes(
+    encoding=serialization.Encoding.PEM,
+    format=serialization.PublicFormat.SubjectPublicKeyInfo
+)
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # TCP
 client_socket.connect((server_addr, server_port))
+client_socket.send(public_key_bytes)
+serverKeyRecv = client_socket.recv(4096)
+server_public_key = serialization.load_pem_public_key(
+    serverKeyRecv, backend=default_backend())
 client_thread = threading.Thread(
     target=handleClient, args=(client_socket,))
 client_thread.start()
