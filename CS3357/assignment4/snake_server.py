@@ -60,18 +60,17 @@ rgb_colors = {
 rgb_colors_list = list(rgb_colors.values())
 
 
-def broadcast(message, public_key):
+def broadcast(message):
     global clientList, server_private_key
     for i, c in enumerate(clientList):
         try:
-            print("BROADCASTING")
-            c.send(encrypt_message(public_key, message))
+            c.send(encrypt_message(clientKeys[i], message))
         except Exception as e:
             print(e, "COULD NOT SEND MESSAGE")
             pass
 
 
-def handle_client(client, public_key):
+def handle_client(client):
     global counter, game, clientKeys
     unique_id = str(uuid.uuid4())
     color = rgb_colors_list[np.random.randint(0, len(rgb_colors_list))]
@@ -96,11 +95,11 @@ def handle_client(client, public_key):
         elif data == "reset":
             game.reset_player(unique_id)
         elif data == "m1":
-            broadcast("M"+unique_id+": " + messageOptions[0], public_key)
+            broadcast("M"+unique_id+": " + messageOptions[0])
         elif data == "m2":
-            broadcast("M"+unique_id+": " + messageOptions[1], public_key)
+            broadcast("M"+unique_id+": " + messageOptions[1])
         elif data == "m3":
-            broadcast("M"+unique_id+": " + messageOptions[2], public_key)
+            broadcast("M"+unique_id+": " + messageOptions[2])
         elif data in ["up", "down", "left", "right"]:
             move = data
             moves_queue.add((unique_id, move))
@@ -162,8 +161,9 @@ def main():
         clientPubKeyRecv = conn.recv(4096)
         client_public_key = serialization.load_pem_public_key(
             clientPubKeyRecv, backend=default_backend())
+        clientKeys.append(client_public_key)
         conn.send(public_key_bytes)
-        start_new_thread(handle_client, (conn, client_public_key,))
+        start_new_thread(handle_client, (conn,))
 
 
 if __name__ == "__main__":

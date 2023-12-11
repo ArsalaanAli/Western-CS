@@ -56,7 +56,7 @@ def parseGameState():
             try:
                 snakeTuple = eval(snakeCube)
             except:
-                print(snakeCube, "ERROR HERE")
+                pass
             if snakeTuple:
                 snakeArray.append(snakeTuple)
         playersArray.append(snakeArray)
@@ -90,10 +90,9 @@ def handleClient(client):
     while True:
         try:
             if messageSend > 0:
-                print("SENDING MESSAGE")
                 client.send(encrypt_message(
                     server_public_key, ("m"+str(messageSend))))
-                print("MESSAGE SENT")
+                client.settimeout(1)
                 messageSend = 0
                 sendState = False
             else:
@@ -110,7 +109,6 @@ def handleClient(client):
                     if message[0] == '(' or message[0] == '|':
                         gameState = message
                     else:
-                        print("DECRYPTING")
                         message = decrypt_message(client_private_key, message)
                         print(message[1::])
                         sendState = True
@@ -145,7 +143,6 @@ def encrypt_message(public_key, message):
 
 
 def decrypt_message(private_key, ciphertext):
-    print("DECRYPTING")
     plaintext = private_key.decrypt(
         ciphertext,
         padding.OAEP(
