@@ -60,6 +60,7 @@ int main(int argc, char* argv[]){
 
     // Drawing code outside the loop
     glColor3f(0.0f, 0.0f, 0.0f);
+    
     glPointSize(2.0f);
 
     prevPoint = { (float) frand(), (float) frand() };
