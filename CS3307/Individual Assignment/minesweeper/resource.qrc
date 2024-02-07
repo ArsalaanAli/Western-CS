@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>bomb_explode.png</file>
+        <file>mine_flag.png</file>
+    </qresource>
+</RCC>
