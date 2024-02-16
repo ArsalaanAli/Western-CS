@@ -34,7 +34,7 @@ Point BezierCurvePoint(float t, Point p0, Point p1, Point p2, Point p3) {
 void drawCurve(Node node1, Node node2) {
     int PolyLine = 200;
     for (int i = 0; i < PolyLine; ++i) {
-        double t = static_cast<float>(i) / (PolyLine - 1); // t varies from 0 to 1
+        double t = static_cast<float>(i) / (PolyLine - 1);
         Point temp = (BezierCurvePoint(t, node1, node1.handle2, node2.handle1, node2));
         glVertex2f(temp.x, temp.y);
     }
@@ -209,7 +209,7 @@ int main(int argc, char* argv[]) {
 
         glColor3f(0.0f, 0.0f, 0.0f);
 
-        glPointSize(10.0f); // Set point size to 5 pixels
+        glPointSize(10.0f);
 
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
             nodes.clear();
