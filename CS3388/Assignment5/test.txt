@@ -1,0 +1,6 @@
+1 = cos(A) * sin(B);
+1 = cos(B);
+1 = sin(A) * sin(B);
+
+B = 0
+A = PI/2

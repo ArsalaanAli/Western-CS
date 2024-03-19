@@ -13,9 +13,9 @@ void cameraThirdPerson(glm::mat4& M, glm::mat4& V) {}
 void cameraFirstPerson(glm::mat4& V, float start) {
     glm::vec3 center = {0, 0, 0};
     glm::vec3 position;
-    static double azimunth = 1;
-    static double zenith = 1;
-    static double r = 5;
+    static double azimunth = _PI/4;
+    static double zenith = _PI/4;
+    static double r = 8.66025403784;
     static double mouseDownX;
     static double mouseDownY;
     static bool firstPress = true;
@@ -41,7 +41,6 @@ void cameraFirstPerson(glm::mat4& V, float start) {
 
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
     {
-        cout << "work" << endl;
         if (firstPress){
             glfwGetCursorPos(window, &mouseDownX, &mouseDownY);
             firstPress = false;
@@ -68,7 +67,7 @@ void cameraFirstPerson(glm::mat4& V, float start) {
     float newZ = r * sin(azimunth) * sin(zenith);
     position = {newX, newY, newZ};
 
-    std::cout << position.x << " " <<  position.y << " " << position.z << std::endl;
+    std::cout << position.x <<  " " << position.y << " " << position.z << " " << r << std::endl;
 
     glm::vec3 up = {0.0f, 1.0f, 0.0f};
     V = glm::lookAt(position, center, up);
