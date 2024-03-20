@@ -67,7 +67,7 @@ void SphericalCamera(glm::mat4& V) {
     float newZ = r * sin(azimunth) * sin(zenith);
     position = {newX, newY, newZ};
 
-    cout << position.x <<  " " << position.y << " " << position.z << " " << r << endl;
+    // cout << position.x <<  " " << position.y << " " << position.z << " " << r << endl;
 
     glm::vec3 up = {0.0f, 1.0f, 0.0f};
     V = glm::lookAt(position, center, up);
