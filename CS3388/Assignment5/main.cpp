@@ -276,7 +276,6 @@ int main( int argc, char* argv[])
 
 
     glm::mat4 Projection = glm::perspective(glm::radians(45.0f), screenW/screenH, 0.001f, 1000.0f);
-		// Projection = glm::mat4(1.0f);
 
 	do{
 		// Clear the screen
