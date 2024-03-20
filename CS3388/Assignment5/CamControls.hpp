@@ -3,18 +3,18 @@
 
 #include <glm/glm.hpp>
 #include "math.h"
+#include <iostream>
+
+using namespace std;
 
 static const double _PI = 2.0*asin(1);
 const double speed = 0.5;
 
-
-void cameraThirdPerson(glm::mat4& M, glm::mat4& V) {}
-
-void cameraFirstPerson(glm::mat4& V, float start) {
+void SphericalCamera(glm::mat4& V) {
     glm::vec3 center = {0, 0, 0};
     glm::vec3 position;
-    static double azimunth = _PI/2;
-    static double zenith = 0;
+    static double azimunth = _PI/4;
+    static double zenith = _PI/4;
     static double r = 8.66025403784;
     static double mouseDownX;
     static double mouseDownY;
@@ -67,14 +67,9 @@ void cameraFirstPerson(glm::mat4& V, float start) {
     float newZ = r * sin(azimunth) * sin(zenith);
     position = {newX, newY, newZ};
 
-    std::cout << position.x << " hello? " <<  position.y << " " << position.z << " " << r << std::endl;
+    cout << position.x <<  " " << position.y << " " << position.z << " " << r << endl;
 
     glm::vec3 up = {0.0f, 1.0f, 0.0f};
     V = glm::lookAt(position, center, up);
 }
-
-
-
-void cameraControlsGlobe(glm::mat4& V, float start) {}
-
 #endif
