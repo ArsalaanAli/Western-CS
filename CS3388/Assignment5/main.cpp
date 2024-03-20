@@ -20,7 +20,8 @@ using namespace std;
 #include "CamControls.hpp"
 #include "MarchingCubes.hpp"
 #include "CalcNormals.hpp"
-#include "shader.hpp"
+#include "Shader.hpp"
+#include "WritePly.hpp"
 
 #include <vector>
 #include <iostream>
@@ -149,8 +150,9 @@ public:
 };
 
 
-float wave(float x, float y, float z){
-    return sin(x)*cos(z)*y*y;
+float model(float x, float y, float z){
+	float res = y - sin(x) * cos(z);
+	return res;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -161,15 +163,15 @@ int main( int argc, char* argv[])
 {
     const float MINSIZE = -5;
     const float MAXSIZE = 5;
-    const float STEPSIZE = 0.1f;
+    const float STEPSIZE = 0.05f;
+	const string fileName = "example1.ply";
 
-    cout << "marchinga" << endl;
-    vector<float> vertices = marching_cubes(&wave, 1.5, MINSIZE, MAXSIZE, STEPSIZE);
+	vector<float> vertices = marching_cubes(&model, 0, MINSIZE, MAXSIZE, STEPSIZE);
     vector<float> normals = compute_normals(vertices);
 
-    cout << vertices.size() << " SIZES " << normals.size() << endl;
+	writePLY(vertices, normals, fileName);
 
-    // Initialise GLFW
+	// Initialise GLFW
 	if( !glfwInit() )
 	{
 		fprintf( stderr, "Failed to initialize GLFW\n" );
@@ -178,17 +180,12 @@ int main( int argc, char* argv[])
 	}
 
 	glfwWindowHint(GLFW_SAMPLES, 4);
-	// glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	// glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	// glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
-	// glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	// Open a window and create its OpenGL context
 	float screenW = 1400;
 	float screenH = 900;
 	window = glfwCreateWindow( screenW, screenH, "An Example", NULL, NULL);
 	if( window == NULL ){
-		fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
+		fprintf( stderr, "Failed to open GLFW window.\n" );
 		getchar();
 		glfwTerminate();
 		return -1;
@@ -205,7 +202,6 @@ int main( int argc, char* argv[])
 	}
 
 
-	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	// Dark blue background
@@ -215,10 +211,6 @@ int main( int argc, char* argv[])
 	glDepthFunc(GL_LESS);
 
 	GLuint ProgramID = LoadShaders("Marching.vertexshader", "Marching.fragmentshader");
-// uniform mat4 MVP;
-// uniform mat4 V;
-// uniform mat4 M;
-// uniform vec3 LightPosition_worldspace;
 	GLuint MVPID;
     GLuint MID;
     GLuint VID;
@@ -279,7 +271,7 @@ int main( int argc, char* argv[])
     glm::mat4 V = glm::lookAt(eye, center, up); 
 	glm::vec3 lightpos(5.0f, 5.0f, 5.0f);
 	glm::vec4 color(0.f, 0.8f, 0.8f, 1.0f);
-	float alpha = 1;
+	float alpha = 64;
 
 
 
@@ -329,6 +321,15 @@ int main( int argc, char* argv[])
         // Swap buffers
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+
+
+		// // Bind the VBO and update data
+		// glBindBuffer(GL_ARRAY_BUFFER, vboID);
+		// glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+
+		// // Bind the normal VBO and update data
+		// glBindBuffer(GL_ARRAY_BUFFER, vboNormalID);
+		// glBufferData(GL_ARRAY_BUFFER, sizeof(normals[0]) * normals.size(), &normals[0], GL_STATIC_DRAW);
 
 
 	} // Check if the ESC key was pressed or the window was closed

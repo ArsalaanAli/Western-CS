@@ -17,6 +17,7 @@
 const std::vector<int> bitValues = {1, 2, 4, 8, 16, 32, 64, 128};
 
 std::vector<float> marching_cubes( float (*f)(float, float, float), float isovalue, float min, float max, float stepsize){
+    cout << "marching" << endl;
     bool tl, tr, br, bl, fbl, fbr, ftl, ftr;
     std::vector<float> vertices;
 

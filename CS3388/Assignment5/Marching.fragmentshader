@@ -21,7 +21,7 @@ void main(){
     // Material properties
     vec4 MaterialDiffuseColor = modelcolor;
     vec4 MaterialAmbientColor = vec4(0.2,0.2,0.2,modelcolor.a) * MaterialDiffuseColor;
-    vec4 MaterialSpecularColor = vec4(0.7, 0.7, 0.7,modelcolor.a);
+    vec4 MaterialSpecularColor = vec4(1, 1, 1,modelcolor.a);
 
     // Normal of the computed fragment, in camera space
     vec3 n = normalize( Normal_cameraspace );
