@@ -150,7 +150,7 @@ public:
 
 
 float wave(float x, float y, float z){
-    return y - sin(x) - cos(z);
+    return sin(x)*cos(z)*y*y;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -164,7 +164,7 @@ int main( int argc, char* argv[])
     const float STEPSIZE = 0.1f;
 
     cout << "marchinga" << endl;
-    vector<float> vertices = marching_cubes(&wave, 0, MINSIZE, MAXSIZE, STEPSIZE);
+    vector<float> vertices = marching_cubes(&wave, 1.5, MINSIZE, MAXSIZE, STEPSIZE);
     vector<float> normals = compute_normals(vertices);
 
     cout << vertices.size() << " SIZES " << normals.size() << endl;
@@ -214,49 +214,23 @@ int main( int argc, char* argv[])
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
+	GLuint ProgramID = LoadShaders("Marching.vertexshader", "Marching.fragmentshader");
+// uniform mat4 MVP;
+// uniform mat4 V;
+// uniform mat4 M;
+// uniform vec3 LightPosition_worldspace;
+	GLuint MVPID;
+    GLuint MID;
+    GLuint VID;
+    GLuint LightPosID;
+    GLuint colorID;
+    GLuint alphaID;
 
-    // Create the shaders
-    GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-    GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-    std::string VertexShaderCode = "\
-    	#version 330 core\n\
-		layout(location = 0) in vec3 vertexPosition;\n\
-		layout(location = 1) in vec3 normalPosition;\n\
-		out vec2 normalOut;\n\
-		uniform mat4 MVP;\n\
-		void main(){ \n\
-			gl_Position =  MVP * vec4(vertexPosition,1);\n\
-			normalOut = normalPosition;\n\
-		}\n";
-
-    // Read the Fragment Shader code from the file
-    std::string FragmentShaderCode = "\
-		#version 330 core\n\
-		in vec3 normalOut; \n\
-        out vec4 fragColor;\n\
-		void main() {\n\
-			fragColor = vec4(Normal, 1.0);\n\
-		}\n";
-    char const * VertexSourcePointer = VertexShaderCode.c_str();
-    glShaderSource(VertexShaderID, 1, &VertexSourcePointer , NULL);
-    glCompileShader(VertexShaderID);
-
-    // Compile Fragment Shader
-    char const * FragmentSourcePointer = FragmentShaderCode.c_str();
-    glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer , NULL);
-    glCompileShader(FragmentShaderID);
-
-    GLuint ProgramID = glCreateProgram();
-    glAttachShader(ProgramID, VertexShaderID);
-    glAttachShader(ProgramID, FragmentShaderID);
-    glLinkProgram(ProgramID);
-
-    glDetachShader(ProgramID, VertexShaderID);
-    glDetachShader(ProgramID, FragmentShaderID);
-
-    glDeleteShader(VertexShaderID);
-    glDeleteShader(FragmentShaderID);
-
+	MID = glGetUniformLocation(ProgramID, "M");
+	VID = glGetUniformLocation(ProgramID, "V");
+	LightPosID = glGetUniformLocation(ProgramID, "LightPosition_worldspace");
+	colorID = glGetUniformLocation(ProgramID, "modelcolor");
+	alphaID = glGetUniformLocation(ProgramID, "alpha");
 
 	// Get a handle for our "MVP" uniform
 	GLuint MatrixID = glGetUniformLocation(ProgramID, "MVP");
@@ -303,6 +277,11 @@ int main( int argc, char* argv[])
     glm::mat4 M = glm::mat4(1.0f);
     
     glm::mat4 V = glm::lookAt(eye, center, up); 
+	glm::vec3 lightpos(5.0f, 5.0f, 5.0f);
+	glm::vec4 color(0.f, 0.8f, 0.8f, 1.0f);
+	float alpha = 1;
+
+
 
     glm::mat4 Projection = glm::perspective(glm::radians(45.0f), screenW/screenH, 0.001f, 1000.0f);
 		// Projection = glm::mat4(1.0f);
@@ -332,6 +311,11 @@ int main( int argc, char* argv[])
 
 		glUseProgram(ProgramID);
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+		glUniformMatrix4fv(MID, 1, GL_FALSE, &M[0][0]); //model matrix always identity.
+	    glUniformMatrix4fv(VID, 1, GL_FALSE, &V[0][0]);
+		glUniform3f(LightPosID, lightpos.x, lightpos.y, lightpos.z);
+		glUniform4fv(colorID, 1, &color[0]);
+		glUniform1f(alphaID, alpha);
 
 		glBindVertexArray(vaoID);
 		glDrawArrays(GL_TRIANGLES, 0, vertices.size());
