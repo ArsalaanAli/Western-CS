@@ -10,17 +10,17 @@ public class Prims {
     static int[] parents;
 
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.out.println("Usage: java Prims <input_file>");
-            return;
-        }
+        // if (args.length < 1) {
+        //     System.out.println("Usage: java Prims <input_file>");
+        //     return;
+        // }
 
-        String filename = args[0];
+        // String filename = args[0];
 
         adjacencyList = new ArrayList<ArrayList<Integer[]>>();
         
         //Input from txt
-        readFile(filename);
+        readFile();
 
         //Input Graph
         printList();
@@ -56,28 +56,24 @@ public class Prims {
 
     }
     
-    private static void readFile(String fileName) {
-        try {
-            Scanner scanner = new Scanner(new File(fileName));
-            scanner.useDelimiter("\\s+");
-            numVerts = Integer.parseInt(scanner.next());
-            parents = new int[numVerts + 1];
-            parents[1] = 1;
-            for (int i = 0; i < numVerts + 1; i++) {
-                adjacencyList.add(new ArrayList<Integer[]>());
-            }
-            while (scanner.hasNext()) {
-                int i = Integer.parseInt(scanner.next());
-                int j = Integer.parseInt(scanner.next());
-                int w = Integer.parseInt(scanner.next());
-
-                adjacencyList.get(i).add(new Integer[] { j, w });
-                adjacencyList.get(j).add(new Integer[] { i, w });
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    private static void readFile() {
+        Scanner scanner = new Scanner(System.in);
+        scanner.useDelimiter("\\s+");
+        numVerts = Integer.parseInt(scanner.next());
+        parents = new int[numVerts + 1];
+        parents[1] = 1;
+        for (int i = 0; i < numVerts + 1; i++) {
+            adjacencyList.add(new ArrayList<Integer[]>());
         }
+        while (scanner.hasNext()) {
+            int i = Integer.parseInt(scanner.next());
+            int j = Integer.parseInt(scanner.next());
+            int w = Integer.parseInt(scanner.next());
+
+            adjacencyList.get(i).add(new Integer[] { j, w });
+            adjacencyList.get(j).add(new Integer[] { i, w });
+        }
+        scanner.close();
     }
     
     private static void printList() {

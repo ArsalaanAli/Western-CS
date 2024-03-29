@@ -11,7 +11,7 @@ LIBS = -lGL -lglfw -lGLEW
 SRCS = bonus.cpp
 
 # Executable name
-EXEC = main
+EXEC = bonus
 
 # Default target
 all: $(EXEC)

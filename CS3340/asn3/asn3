@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Check if the user provided input through stdin
-if [ -t 0 ]; then
-    echo "Usage: asn3 < infile"
+# Check if the correct number of arguments is provided
+if [ "$#" -ne 0 ]; then
+    echo "Usage: $0 < infile"
     exit 1
 fi
 
 javac Prims.java
-java Prims "$@"
+# Run the Java program with input from standard input
+java Prims

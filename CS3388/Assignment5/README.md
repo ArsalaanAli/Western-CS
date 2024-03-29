@@ -4,8 +4,8 @@
 
 ### Project Stucture
 
-- The main project is run using the Makefile in the root folder
-- The bonus challenge (rendering the marching in realtime) is run using the Makfile in the bonus folder
+- The main project is run using the Makefile in the root folder, then running `./main`
+- The bonus challenge (rendering the marching in realtime) is run using the Makfile in the bonus folder, then running `./bonus`
 
 ### Camera
 
