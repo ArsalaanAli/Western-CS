@@ -1,0 +1,36 @@
+#version 400
+
+// Interpolated values from the vertex shaders
+in vec3 Position_worldspace;
+in vec3 Normal_cameraspace;
+in vec3 EyeDirection_cameraspace;
+in vec3 LightDirection_cameraspace;
+
+// Ouput data
+out vec4 color;
+
+uniform vec4 modelcolor;
+uniform float alpha;
+
+void main(){
+
+    vec4 LightColor = vec4(1,1,1,1);
+
+    vec4 MaterialDiffuseColor = modelcolor;
+    vec4 MaterialAmbientColor = vec4(0.2,0.2,0.2,modelcolor.a) * MaterialDiffuseColor;
+    vec4 MaterialSpecularColor = vec4(1, 1, 1,modelcolor.a);
+
+    vec3 n = normalize( Normal_cameraspace );
+    vec3 l = normalize( LightDirection_cameraspace );
+    float cosTheta = clamp( dot( n,l ), 0,1 );
+
+    vec3 E = normalize(EyeDirection_cameraspace);
+    vec3 R = reflect(-l,n);
+    float cosAlpha = clamp( dot( E,R ), 0,1 );
+
+    color =
+        MaterialAmbientColor +
+        MaterialDiffuseColor * LightColor * cosTheta +
+        MaterialSpecularColor * LightColor * pow(cosAlpha,alpha);
+
+}

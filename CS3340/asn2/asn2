@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Check if the correct number of arguments is provided
+if [ $# -ne 0 ]; then
+    echo "Usage: $0 < infile"
+    exit 1
+fi
+
+# Run the Java program with input from stdin
+javac uandf.java
+java uandf
