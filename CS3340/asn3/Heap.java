@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Heap {
     private int[] array;
     private int[] heap;

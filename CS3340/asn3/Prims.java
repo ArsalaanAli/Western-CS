@@ -10,10 +10,17 @@ public class Prims {
     static int[] parents;
 
     public static void main(String[] args) {
+        if (args.length < 1) {
+            System.out.println("Usage: java Prims <input_file>");
+            return;
+        }
+
+        String filename = args[0];
+
         adjacencyList = new ArrayList<ArrayList<Integer[]>>();
         
         //Input from txt
-        readFile();
+        readFile(filename);
 
         //Input Graph
         printList();
@@ -49,9 +56,7 @@ public class Prims {
 
     }
     
-    private static void readFile() {
-        String fileName = "mst_graph.txt";
-
+    private static void readFile(String fileName) {
         try {
             Scanner scanner = new Scanner(new File(fileName));
             scanner.useDelimiter("\\s+");
