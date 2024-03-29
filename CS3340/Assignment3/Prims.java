@@ -24,6 +24,7 @@ public class Prims {
     }
 
     private static void runPrims() {
+        System.out.println("Prim's MST Output");
         int[] initList = new int[adjacencyList.size()];
         initList[0] = 0;
         for (int i = 1; i < adjacencyList.size(); i++) {
@@ -75,12 +76,14 @@ public class Prims {
     }
     
     private static void printList() {
-        for (int i = 0; i < adjacencyList.size(); i++) {
+        System.out.println("Input Graph");
+        for (int i = 1; i < adjacencyList.size(); i++) {
             System.out.print(i + " ");
             for (Integer[] a : adjacencyList.get(i)) {
                 System.out.print(Arrays.toString(a) + " ");
             }
             System.out.println();
         }
+        System.out.println();
     }
 }
