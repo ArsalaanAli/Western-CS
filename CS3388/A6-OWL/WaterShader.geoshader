@@ -1,0 +1,46 @@
+#version 400
+
+layout (triangles) in;
+layout (triangle_strip, max_vertices=3) out;
+
+// Input vertex data, aggregated into triangles
+...
+
+// Output data per vertex, passed to primitive assembly and rasterization
+...
+
+// Uniform values that stay constant for the whole mesh.
+...
+
+uniform sampler2D displacementTexture;
+uniform float time;
+
+vec3 GetNormal(vec4 a, vec4 b, vec4 c)
+{
+   vec3 x = b.xyz - a.xyz;
+   vec3 y = c.xyz - b.xyz;
+   return normalize(cross(x, y));
+}
+
+
+vec3 Gerstner(vec3 worldpos, float w, float A, float phi, float Q, vec2 D, int N) {
+	...
+}
+
+
+void main() {
+
+	for(int i = 0; i < gl_in.length(); ++i) {
+
+	}
+
+	vec3 mynorm = GetNormal(...);
+
+	for(int i = 0; i < gl_in.length(); ++i) {
+		...
+		EmitVertex();
+	}
+	EndPrimitive();
+
+}
+

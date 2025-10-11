@@ -1,0 +1,46 @@
+#version 400
+layout (triangles) in;
+layout (triangle_strip, max_vertices=9) out;
+
+in vec2 uv_vs[]; 
+out vec2 uv;
+
+
+uniform float time;
+
+vec3 GetNormal()
+{
+   vec3 a = vec3(gl_in[0].gl_Position) - vec3(gl_in[1].gl_Position);
+   vec3 b = vec3(gl_in[2].gl_Position) - vec3(gl_in[1].gl_Position);
+   return normalize(cross(a, b));
+}
+
+
+void main() {
+	vec3 normal = GetNormal();
+
+	for(int i = 0; i < gl_in.length(); ++i) {
+		gl_Position = gl_in[i].gl_Position + 0*vec4(normal, 0.0);
+		uv= uv_vs[i];
+		EmitVertex();
+	}
+	EndPrimitive();
+
+	// for(int i = 0; i < gl_in.length(); ++i) {
+	// 	gl_Position = gl_in[i].gl_Position + 3*vec4(normal, 0.0);
+	// 	uv= uv_vs[i];
+	// 	EmitVertex();
+	// }
+}
+
+
+void foo() {
+	vec3 normal = GetNormal();
+	EndPrimitive();
+		for(int i = 0; i < gl_in.length(); ++i) {
+		gl_Position = gl_in[i].gl_Position + 6*vec4(normal, 0.0);
+		uv= uv_vs[i];
+		EmitVertex();
+	}
+	EndPrimitive();
+}

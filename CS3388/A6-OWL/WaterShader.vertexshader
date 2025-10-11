@@ -1,0 +1,15 @@
+#version 400
+
+// Input vertex data, different for all executions of this shader.
+...
+
+// Output data : will be passed to TCS.
+...
+
+// Uniform values that stay constant for the whole mesh.
+...
+
+
+void main(){
+
+}

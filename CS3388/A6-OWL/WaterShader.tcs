@@ -1,0 +1,28 @@
+#version 400
+
+layout (vertices = 4) out;
+
+// Input vertex data, aggregated into patches
+...
+
+// Output data : will be passed to TES.
+...
+
+// Uniform values that stay constant for the whole mesh.
+...
+
+uniform float outerTess;
+uniform float innerTess;
+
+void main() {
+    //use gl_InvocationID
+
+
+    gl_TessLevelOuter[0] = outerTess;
+    gl_TessLevelOuter[1] = outerTess;
+    gl_TessLevelOuter[2] = outerTess;
+    gl_TessLevelOuter[3] = outerTess;
+    gl_TessLevelInner[0] = innerTess;
+    gl_TessLevelInner[1] = innerTess;
+
+}

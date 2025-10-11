@@ -1,0 +1,14 @@
+#version 400
+
+// Ouput data
+out vec4 color;
+
+uniform vec4 modelcolor;
+uniform float alpha;
+uniform sampler2D tex;
+
+void main(){
+
+    color = vec4(1.0, 1.0, 0.0, 1.0);
+}
+

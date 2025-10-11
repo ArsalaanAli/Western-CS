@@ -1,0 +1,21 @@
+#version 400
+layout (points) in;
+layout (line_strip, max_vertices=9) out;
+
+in vec2 uv_vs[];
+in vec3 normal_vs[];
+
+uniform float time;
+
+uniform mat4 MVP;
+uniform mat4 M;
+
+
+void main() {
+
+	gl_Position = M*(gl_in[0].gl_Position);
+	EmitVertex();
+	gl_Position = M*(gl_in[0].gl_Position + 1.0*vec4(normal_vs[0], 0.0f));
+	EmitVertex();
+	EndPrimitive();
+}

@@ -302,7 +302,7 @@ int main( int argc, char* argv[])
 
 		glUseProgram(ProgramID);
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-		glUniformMatrix4fv(MID, 1, GL_FALSE, &M[0][0]); //model matrix always identity.
+		glUniformMatrix4fv(MID, 1, GL_FALSE, &M[0][0]); //model matrix always identity
 	    glUniformMatrix4fv(VID, 1, GL_FALSE, &V[0][0]);
 		glUniform3f(LightPosID, lightpos.x, lightpos.y, lightpos.z);
 		glUniform4fv(colorID, 1, &color[0]);
